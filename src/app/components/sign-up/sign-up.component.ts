@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { GatekeeperService } from '../../services/gatekeep.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -9,8 +10,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class SignUpComponent {
   signupForm!: FormGroup;
+  showPassword:boolean = false;
 
-  constructor(private fb: FormBuilder){}
+  constructor(private fb: FormBuilder,private gateSrv: GatekeeperService){}
 
   ngOnInit(){
     this.signupForm = this.fb.group({
@@ -21,8 +23,25 @@ export class SignUpComponent {
     });
   }
 
-  onSubmit(){
-    console.log(this.signupForm);
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
+  signupUser(){
+    let payload = {
+      'FIRSTNAME': this.signupForm.get('firstName')?.value,
+      'LASTNAME': this.signupForm.get('lastName')?.value,
+      'EMAIL': this.signupForm.get('email')?.value,
+      'PASSWORD': this.signupForm.get('password')?.value == '' ? '12345' : this.signupForm.get('password')?.value,
+      'mode':'signup'
+    }
+    this.gateSrv.signup(payload).subscribe((res: any) => {
+      if (res) {         
+        if (res.status == 'Success') {
+          this.signupForm.reset();
+          alert(res.message);
+      }
+    }
+    });
+  }
 }

@@ -5,11 +5,14 @@ import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'; 
+import { provideHttpClient } from '@angular/common/http';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpComponent
+    SignUpComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -17,7 +20,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [],
+  providers: [provideHttpClient()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
