@@ -8,6 +8,7 @@ import { Config } from '../../Config';
 })
 export class GatekeeperService {
     token:any = '';
+    userInfo:any;
 
   constructor(private http:HttpClient){}
 
@@ -17,6 +18,11 @@ export class GatekeeperService {
 
   login(payload:any){
     return this.http.post('http://localhost:3000/api/login',payload);
+  }
+
+  changePassword(payload:any){
+    return this.http.post('http://localhost:3000/api/change-password',payload);
+
   }
   
   

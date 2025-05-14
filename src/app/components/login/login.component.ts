@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GatekeeperService } from '../../services/gatekeep.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   showPassword:boolean = false;
 
-  constructor(private fb: FormBuilder, private gateSrv: GatekeeperService) { }
+  constructor(private fb: FormBuilder, private gateSrv: GatekeeperService, private router: Router) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -32,10 +33,16 @@ export class LoginComponent implements OnInit {
     }
     this.gateSrv.login(payload).subscribe((res: any) => {
       if (res) {
-        if (res.status.toLowercase() == 'success') {
+        console.log(res)
+        if (res.status.toLowerCase() === 'success') {
           this.loginForm.reset();
           alert(res.message);
           this.gateSrv.token = res?.token;
+          this.gateSrv.userInfo = res?.user
+          if (res.user.USERROLE === 'Admin') {
+        } else {
+          this.router.navigate(['/customer-homepage']);
+        }
         }
       }
     });
