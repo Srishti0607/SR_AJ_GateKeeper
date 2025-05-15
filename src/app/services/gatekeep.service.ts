@@ -22,7 +22,22 @@ export class GatekeeperService {
 
   changePassword(payload:any){
     return this.http.post('http://localhost:3000/api/change-password',payload);
+  }
 
+  changeProfile(payload:any){
+    return this.http.post('http://localhost:3000/api/change-profile',payload);
+  }
+
+  getProfileData(payload:any){
+    return this.http.post('http://localhost:3000/api/get-profile',payload);
+  }
+
+  deleteAccount(payload:any){
+    return this.http.post('http://localhost:3000/api/delete-account',payload);
+  }
+
+  signOut(){
+    return this.http.post('http://localhost:3000/api/sign-out','');
   }
   
   

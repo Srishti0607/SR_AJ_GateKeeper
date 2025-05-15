@@ -16,7 +16,6 @@ export class ChangePasswordComponent implements OnInit {
   constructor(private gateSrv: GatekeeperService,private fb: FormBuilder,private router: Router){}
 
   ngOnInit(): void {
-    console.log(this.gateSrv.userInfo)
     this.userInfo = this.gateSrv.userInfo;
     this.changePasswordForm = this.fb.group({
       oldPassword: ['', Validators.required],
@@ -26,14 +25,13 @@ export class ChangePasswordComponent implements OnInit {
 
   onSubmit(): void {
     if (this.changePasswordForm.invalid) return;
-
     const payload = {
       email: this.userInfo?.EMAIL,
       oldPassword: this.changePasswordForm.value.oldPassword,
       newPassword: this.changePasswordForm.value.newPassword
     };
 
-    this.gateSrv.changePassword(payload).subscribe({
+    this.gateSrv.changeProfile(payload).subscribe({
       next: (res: any) => {
         if (res.status.toLowerCase() === 'success') {
           alert(res.message);
@@ -48,6 +46,10 @@ export class ChangePasswordComponent implements OnInit {
         alert('An error occurred while changing password');
       }
     });
+  }
+
+  goBack(){
+    this.router.navigate(['/customer-homepage']);
   }
 
 }

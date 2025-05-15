@@ -9,48 +9,53 @@ import { GatekeeperService } from '../services/gatekeep.service';
   standalone: false
 })
 export class CustomerHomepageComponent implements OnInit {
-  userInfo:any;
+  userInfo: any;
+  showModal: boolean = false;
 
   constructor(
     private router: Router,
     private gateSrv: GatekeeperService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.userInfo = this.gateSrv.userInfo;
-    console.log(this.userInfo);
   }
 
   handleSignOut(): void {
-    // this.authService.signOut().subscribe({
-    //   next: (response: any) => {
-    //     if (response.status === 'Success') {
-    //       this.router.navigate(['/login']);
-    //     } else {
-    //       alert(response.message);
-    //     }
-    //   },
-    //   error: () => {
-    //     alert('An error occurred while signing out');
-    //   }
-    // });
+    this.gateSrv.signOut().subscribe({
+      next: (response: any) => {
+        if (response.status === 'Success') {
+          this.gateSrv.userInfo = {};
+          this.router.navigate(['/login']);
+        } else {
+          alert(response.message);
+        }
+      },
+      error: () => {
+        alert('An error occurred while signing out');
+      }
+    });
   }
 
   handleDeleteAccount(): void {
-    // const payload = { email: this.userEmail };
-    // this.authService.deleteAccount(payload, this.token).subscribe({
-    //   next: (response: any) => {
-    //     if (response.status === 'Success') {
-    //       alert(response.message);
-    //       this.router.navigate(['/login']);
-    //     } else {
-    //       alert(response.message);
-    //     }
-    //   },
-    //   error: () => {
-    //     alert('An error occurred while deleting the account');
-    //   }
-    // });
+    const confirmed = confirm('Are you sure you want to delete your account? This action cannot be undone.');
+    if (confirmed) {
+      const payload = { email: this.userInfo?.EMAIL };
+      this.gateSrv.deleteAccount(payload).subscribe({
+        next: (response: any) => {
+          if (response.status === 'Success') {
+            alert(response.message);
+            this.router.navigate(['/login']);
+          } else {
+            alert(response.message);
+          }
+        },
+        error: () => {
+          alert('An error occurred while deleting the account');
+        }
+      });
+    }
+
   }
 
 }

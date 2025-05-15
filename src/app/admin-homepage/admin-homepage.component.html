@@ -1,0 +1,55 @@
+<!-- admin-homepage.component.html -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">My Menu</a>
+  
+      <div class="d-flex ms-auto align-items-center">
+        <span class="navbar-text text-white me-3">
+            {{ userInfo?.FIRSTNAME }} {{ userInfo?.LASTNAME }}
+        </span>
+        <button class="btn btn-outline-light" (click)="handleSignOut()">
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card shadow-lg rounded-4 border-0">
+          <div class="card-body text-center p-4">
+            <h2 class="mb-3 text-primary fw-bold">
+              Welcome to Admin Homepage
+            </h2>
+            <p class="mb-4 text-muted">Select an action:</p>
+  
+            <ul class="list-group">
+              <li class="list-group-item border-0">
+                <a class="btn btn-outline-primary w-100 mb-2" routerLink="/add-role">
+                  Add Roles
+                </a>
+              </li>
+              <li class="list-group-item border-0">
+                <a class="btn btn-outline-primary w-100 mb-2" routerLink="/add-employee">
+                  Add Employees
+                </a>
+              </li>
+              <li class="list-group-item border-0">
+                <a class="btn btn-outline-primary w-100 mb-2" routerLink="/lock-unlock">
+                  Lock/Unlock User
+                </a>
+              </li>
+              <li class="list-group-item border-0">
+                <a class="btn btn-outline-primary w-100 mb-2" routerLink="/role-permission">
+                  Role Permission
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

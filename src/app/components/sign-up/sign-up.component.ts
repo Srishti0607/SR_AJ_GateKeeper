@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GatekeeperService } from '../../services/gatekeep.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -12,7 +13,7 @@ export class SignUpComponent {
   signupForm!: FormGroup;
   showPassword:boolean = false;
 
-  constructor(private fb: FormBuilder,private gateSrv: GatekeeperService){}
+  constructor(private fb: FormBuilder,private gateSrv: GatekeeperService, private router: Router){}
 
   ngOnInit(){
     this.signupForm = this.fb.group({
@@ -43,5 +44,9 @@ export class SignUpComponent {
       }
     }
     });
+  }
+
+  goToLogin(){
+    this.router.navigate(['/login']);
   }
 }

@@ -1,0 +1,40 @@
+<div class="container mt-5">
+    <div class="card shadow">
+      <div class="card-body p-4">
+        <h2 class="mb-4">Change Profile</h2>
+  
+        <button class="btn btn-secondary mb-4" (click)="goBack()">← Back</button>
+  
+        <form [formGroup]="changeProfileForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input
+              type="text"
+              id="firstName"
+              class="form-control"
+              formControlName="firstName"
+              placeholder="Enter your first name"
+              required
+            />
+          </div>
+  
+          <div class="mb-4">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              class="form-control"
+              formControlName="lastName"
+              placeholder="Enter your last name"
+              required
+            />
+          </div>
+  
+          <button type="submit" class="btn btn-primary w-100" [disabled]="changeProfileForm.invalid">
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  

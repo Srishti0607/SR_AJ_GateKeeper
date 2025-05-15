@@ -11,6 +11,9 @@ import { CommonModule } from '@angular/common';
 import { CustomerHomepageComponent } from './customer-homepage/customer-homepage.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { HrssInterceptor } from './interceptor/hrssInterceptor';
+import { ChangeProfileComponent } from './change-profile/change-profile.component';
+import { AdminHomepageComponent } from './admin-homepage/admin-homepage.component';
+import { AddRoleComponent } from './add-role/add-role.component';
 export const interceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: HrssInterceptor, multi: true },
 ];
@@ -21,7 +24,10 @@ export const interceptorProviders = [
     SignUpComponent,
     LoginComponent,
     CustomerHomepageComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    ChangeProfileComponent,
+    AdminHomepageComponent,
+    AddRoleComponent
   ],
   imports: [
     BrowserModule,

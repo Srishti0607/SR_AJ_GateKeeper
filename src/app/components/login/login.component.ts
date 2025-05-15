@@ -40,13 +40,17 @@ export class LoginComponent implements OnInit {
           this.gateSrv.token = res?.token;
           this.gateSrv.userInfo = res?.user
           if (res.user.USERROLE === 'Admin') {
+            this.router.navigate(['/admin-homepage']);
         } else {
           this.router.navigate(['/customer-homepage']);
         }
         }
       }
     });
+  }
 
+  goToSignup(){
+    this.router.navigate(['/']);
   }
 
 }
