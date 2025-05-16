@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GatekeeperService } from '../services/gatekeep.service';
 export interface Role {
   _id: string;
   roleName: string;
@@ -14,54 +15,51 @@ export interface Role {
 
 export class AddRoleComponent implements OnInit{
 
-  roles: Role[] = [];
+  roles: any = [];
   newRoleName: string = '';
-  editRoleId: string | null = null;
+  userInfo:any;
+  editRoleId: any = "";
   editRoleName: string = '';
-  userEmail: string = '';
-  token: string = '';
 
   constructor(
-    // private rolesService: RolesService,
-    // private userService: UserService
+    private gateSrv: GatekeeperService
   ) {}
 
   ngOnInit(): void {
-    // this.userEmail = this.userService.getUserEmail();
-    // this.token = this.userService.getToken();
+    this.userInfo = this.gateSrv.userInfo;
     this.fetchRoles();
   }
 
   fetchRoles() {
-    // this.rolesService.getRoles().subscribe({
-    //   next: (items) => this.roles = items,
-    //   error: (err) => console.error('Error fetching roles:', err)
-    // });
+    this.gateSrv.getRole().subscribe({
+      next: (items) => this.roles = items,
+      error: (err) => console.error('Error fetching roles:', err)
+    });
   }
 
   handleAddRole() {
-    // if (this.newRoleName.trim() === '') return;
+    if (this.newRoleName.trim() === '') return;
 
-    // const payload = {
-    //   roleName: this.newRoleName.trim(),
-    //   email: this.userEmail
-    // };
+    const payload = {
+      roleName: this.newRoleName.trim(),
+      email: this.userInfo?.EMAIL
+    };
 
-    // this.rolesService.addRole(payload, this.token).subscribe({
-    //   next: (response) => {
-    //     if (response.status === 'Success') {
-    //       this.fetchRoles();
-    //       this.newRoleName = '';
-    //       alert(response.message);
-    //     } else {
-    //       alert(response.message);
-    //     }
-    //   },
-    //   error: (error) => {
-    //     alert('An error occurred while adding role');
-    //     console.error('Add role error:', error);
-    //   }
-    // });
+    this.gateSrv.addRole(payload).subscribe({
+      next: (response:any) => {
+        if (response.status.toLowerCase() === 'success') {
+          this.fetchRoles();
+          this.newRoleName = '';
+          alert(response.message);
+        } else {
+          alert(response.message);
+        }
+      },
+      error: (error) => {
+        alert('An error occurred while adding role');
+        console.error('Add role error:', error);
+      }
+    });
   }
 
   handleDeleteRole(id: string) {
@@ -89,30 +87,31 @@ export class AddRoleComponent implements OnInit{
   }
 
   handleEditSave(id: string) {
-    // const payload = { roleName: this.editRoleName, email: this.userEmail };
+    const payload = { roleName: this.editRoleName, email: this.userInfo?.EMAIL };
 
-    // this.rolesService.updateRole(id, payload, this.token).subscribe({
-    //   next: (response) => {
-    //     if (response.status === 'Success') {
-    //       this.roles = this.roles.map(role =>
-    //         role._id === id ? { ...role, roleName: this.editRoleName } : role
-    //       );
-    //       alert('Role updated successfully');
-    //       this.editRoleId = null;
-    //       this.editRoleName = '';
-    //     } else {
-    //       alert(response.message);
-    //     }
-    //   },
-    //   error: (error) => {
-    //     alert('An error occurred while updating role');
-    //     console.error('Update role error:', error);
-    //   }
-    // });
+    this.gateSrv.updateRole(id, payload).subscribe({
+      next: (response:any) => {
+        if (response.status.toLowerCase() === 'success') {
+          this.roles = this.roles.map((role:any) =>
+            role._id === id ? { ...role, roleName: this.editRoleName } : role
+          );
+          alert('Role updated successfully');
+          this.editRoleId = null;
+          this.editRoleName = '';
+          this.fetchRoles();
+        } else {
+          alert(response.message);
+        }
+      },
+      error: (error) => {
+        alert('An error occurred while updating role');
+        console.error('Update role error:', error);
+      }
+    });
   }
 
   handleEditCancel() {
-    this.editRoleId = null;
-    this.editRoleName = '';
+    // this.editRoleId = null;
+    // this.editRoleName = '';
   }
 }

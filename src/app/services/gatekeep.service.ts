@@ -39,6 +39,18 @@ export class GatekeeperService {
   signOut(){
     return this.http.post('http://localhost:3000/api/sign-out','');
   }
+
+  addRole(payload:any){
+    return this.http.post('http://localhost:3000/api/addRole',payload);
+  }
+
+  getRole(){
+    return this.http.get('http://localhost:3000/api/getRoles');
+  }
+
+  updateRole(id:any,payload:any){
+    return this.http.put('http://localhost:3000/api/editRole/'+id,payload);
+  }
   
   
 }

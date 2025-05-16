@@ -28,21 +28,21 @@
         <tr *ngFor="let role of roles">
           <td>
             <input
-              *ngIf="editRoleId === role._id"
+            *ngIf="editRoleId == role.id"
               type="text"
               class="form-control"
               [(ngModel)]="editRoleName"
-              name="editRoleName-{{role._id}}"
+              name="editRoleName-{{role.id}}"
             />
-            <span *ngIf="editRoleId !== role._id">{{ role.roleName }}</span>
+            <span *ngIf="editRoleId != role.id">{{ role.roleName }}</span>
           </td>
           <td>
-            <ng-container *ngIf="editRoleId === role._id; else viewActions">
-              <button class="btn btn-success btn-sm me-1" (click)="handleEditSave(role._id)">Save</button>
+            <ng-container *ngIf="editRoleId == role.id; else viewActions">
+              <button class="btn btn-success btn-sm me-1" (click)="handleEditSave(role.id)">Save</button>
               <button class="btn btn-secondary btn-sm" (click)="handleEditCancel()">Cancel</button>
             </ng-container>
             <ng-template #viewActions>
-              <button class="btn btn-info btn-sm me-1" (click)="handleEditStart(role._id, role.roleName)">Edit</button>
+              <button class="btn btn-info btn-sm me-1" (click)="handleEditStart(role.id, role.roleName)">Edit</button>
               <button class="btn btn-danger btn-sm" (click)="handleDeleteRole(role._id)">Delete</button>
             </ng-template>
           </td>
