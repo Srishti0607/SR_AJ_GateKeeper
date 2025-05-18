@@ -23,41 +23,49 @@ export const routes: Routes = [
         path : 'customer-homepage',
         component: CustomerHomepageComponent,
         canActivate: [AuthService],
+        data: { roles: ['user'] }
     },
     {
         path : 'change-password',
         component: ChangePasswordComponent,
         canActivate: [AuthService],
+        data: { roles: ['user'] }
     },
     {
         path:'change-profile',
         component: ChangeProfileComponent,
         canActivate: [AuthService],
+        data: { roles: ['user'] }
     },
     {
         path:'admin-homepage',
         component: AdminHomepageComponent,
         canActivate: [AuthService],
+        data: { roles: ['admin'] }
     },
     {
         path:'add-role',
         component: AddRoleComponent,
         canActivate: [AuthService],
+         data: { roles: ['admin'] }
     },
     {
         path:'add-employee',
         component: AddEmployeeComponent,
         canActivate: [AuthService],
+         data: { roles: ['admin'] }
     },
     {
         path:'lock-unlock',
         component: LockUnlockComponent,
         canActivate: [AuthService],
+         data: { roles: ['admin'] }
     },
      {
         path:'role-permission',
         component: RolePermissionComponent,
         canActivate: [AuthService],
+         data: { roles: ['admin'] }
     }
    
 ]

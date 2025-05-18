@@ -9,7 +9,7 @@ import { GatekeeperService } from './gatekeep.service';
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private router:Router,private gateSrv: GatekeeperService){}
+  constructor(private router: Router, private gateSrv: GatekeeperService) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -17,14 +17,23 @@ export class AuthService {
   ): Observable<boolean> | Promise<boolean> | boolean {
     if (!navigator.onLine) {
       return false;
-    } else {
-      if (this.gateSrv.token) {
-        return true;
-      }
-      this.router.navigate(["login"]);
+    }
+
+    if (!this.gateSrv.token) {
+      this.router.navigate(['login']);
       return false;
     }
+    const allowedRoles = route.data['roles'] as Array<string> | undefined;
+    const user = this.gateSrv.userInfo;
+
+    if (allowedRoles && allowedRoles.length > 0) {
+      const userRole = user?.ISSUPERADMIN ? 'admin' : user?.role;
+
+      if (!userRole || !allowedRoles.includes(userRole)) {
+        this.router.navigate(['login']); 
+        return false;
+      }
+    }
+    return true;
   }
-  
-  
 }
