@@ -7,6 +7,9 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { ChangeProfileComponent } from './change-profile/change-profile.component';
 import { AdminHomepageComponent } from './admin-homepage/admin-homepage.component';
 import { AddRoleComponent } from './add-role/add-role.component';
+import { AddEmployeeComponent } from './add-employee/add-employee.component';
+import { LockUnlockComponent } from './lock-unlock/lock-unlock.component';
+import { RolePermissionComponent } from './role-permission/role-permission.component';
 export const routes: Routes = [
     {
         path:'',
@@ -39,6 +42,21 @@ export const routes: Routes = [
     {
         path:'add-role',
         component: AddRoleComponent,
+        canActivate: [AuthService],
+    },
+    {
+        path:'add-employee',
+        component: AddEmployeeComponent,
+        canActivate: [AuthService],
+    },
+    {
+        path:'lock-unlock',
+        component: LockUnlockComponent,
+        canActivate: [AuthService],
+    },
+     {
+        path:'role-permission',
+        component: RolePermissionComponent,
         canActivate: [AuthService],
     }
    

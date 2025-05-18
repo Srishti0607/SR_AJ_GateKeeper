@@ -14,27 +14,11 @@ export class CustomerHomepageComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private gateSrv: GatekeeperService
+    public gateSrv: GatekeeperService
   ) { }
 
   ngOnInit(): void {
     this.userInfo = this.gateSrv.userInfo;
-  }
-
-  handleSignOut(): void {
-    this.gateSrv.signOut().subscribe({
-      next: (response: any) => {
-        if (response.status === 'Success') {
-          this.gateSrv.userInfo = {};
-          this.router.navigate(['/login']);
-        } else {
-          alert(response.message);
-        }
-      },
-      error: () => {
-        alert('An error occurred while signing out');
-      }
-    });
   }
 
   handleDeleteAccount(): void {

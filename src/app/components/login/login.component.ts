@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-  showPassword:boolean = false;
+  showPassword: boolean = false;
 
   constructor(private fb: FormBuilder, private gateSrv: GatekeeperService, private router: Router) { }
 
@@ -32,24 +32,28 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.get('password')?.value
     }
     this.gateSrv.login(payload).subscribe((res: any) => {
-      if (res) {
-        console.log(res)
-        if (res.status.toLowerCase() === 'success') {
-          this.loginForm.reset();
-          alert(res.message);
-          this.gateSrv.token = res?.token;
-          this.gateSrv.userInfo = res?.user
-          if (res.user.USERROLE === 'Admin') {
-            this.router.navigate(['/admin-homepage']);
+      if (res.status.toLowerCase() === 'success') {
+        this.loginForm.reset();
+        alert(res.message);
+        this.gateSrv.token = res?.token;
+        this.gateSrv.userInfo = res?.user
+        if (res.user.USERROLE === 'Admin') {
+          this.router.navigate(['/admin-homepage']);
         } else {
           this.router.navigate(['/customer-homepage']);
         }
-        }
+      } else {
+        this.loginForm.reset();
+        alert(res.message);
       }
-    });
+    },
+      (error) => {
+        this.loginForm.reset();
+        alert("Something Went Wrong !!");
+      });
   }
 
-  goToSignup(){
+  goToSignup() {
     this.router.navigate(['/']);
   }
 

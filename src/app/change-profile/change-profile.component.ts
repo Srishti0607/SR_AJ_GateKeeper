@@ -13,7 +13,7 @@ export class ChangeProfileComponent implements OnInit {
   changeProfileForm!: FormGroup;
   userInfo: any;
 
-  constructor(private fb: FormBuilder,private gateSrv: GatekeeperService,private router: Router) { }
+  constructor(private fb: FormBuilder,public gateSrv: GatekeeperService,private router: Router) { }
 
   ngOnInit() {
     this.userInfo = this.gateSrv.userInfo;

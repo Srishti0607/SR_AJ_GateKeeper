@@ -14,6 +14,9 @@ import { HrssInterceptor } from './interceptor/hrssInterceptor';
 import { ChangeProfileComponent } from './change-profile/change-profile.component';
 import { AdminHomepageComponent } from './admin-homepage/admin-homepage.component';
 import { AddRoleComponent } from './add-role/add-role.component';
+import { AddEmployeeComponent } from './add-employee/add-employee.component';
+import { LockUnlockComponent } from './lock-unlock/lock-unlock.component';
+import { RolePermissionComponent } from './role-permission/role-permission.component';
 export const interceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: HrssInterceptor, multi: true },
 ];
@@ -27,7 +30,10 @@ export const interceptorProviders = [
     ChangePasswordComponent,
     ChangeProfileComponent,
     AdminHomepageComponent,
-    AddRoleComponent
+    AddRoleComponent,
+    AddEmployeeComponent,
+    LockUnlockComponent,
+    RolePermissionComponent
   ],
   imports: [
     BrowserModule,

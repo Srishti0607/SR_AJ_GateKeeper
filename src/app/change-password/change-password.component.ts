@@ -13,7 +13,7 @@ export class ChangePasswordComponent implements OnInit {
   changePasswordForm!: FormGroup;
   userInfo: any;
 
-  constructor(private gateSrv: GatekeeperService,private fb: FormBuilder,private router: Router){}
+  constructor(public gateSrv: GatekeeperService,private fb: FormBuilder,private router: Router){}
 
   ngOnInit(): void {
     this.userInfo = this.gateSrv.userInfo;

@@ -11,11 +11,11 @@ import { Router } from '@angular/router';
 })
 export class SignUpComponent {
   signupForm!: FormGroup;
-  showPassword:boolean = false;
+  showPassword: boolean = false;
 
-  constructor(private fb: FormBuilder,private gateSrv: GatekeeperService, private router: Router){}
+  constructor(private fb: FormBuilder, private gateSrv: GatekeeperService, private router: Router) { }
 
-  ngOnInit(){
+  ngOnInit() {
     this.signupForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -28,25 +28,28 @@ export class SignUpComponent {
     this.showPassword = !this.showPassword;
   }
 
-  signupUser(){
+  signupUser() {
     let payload = {
       'FIRSTNAME': this.signupForm.get('firstName')?.value,
       'LASTNAME': this.signupForm.get('lastName')?.value,
       'EMAIL': this.signupForm.get('email')?.value,
       'PASSWORD': this.signupForm.get('password')?.value == '' ? '12345' : this.signupForm.get('password')?.value,
-      'mode':'signup'
+      'mode': 'signup'
     }
     this.gateSrv.signup(payload).subscribe((res: any) => {
-      if (res) {         
+      if (res) {
         if (res.status == 'Success') {
           this.signupForm.reset();
           alert(res.message);
+        }else{
+          this.signupForm.reset();
+          alert(res.message);
+        }
       }
-    }
     });
   }
 
-  goToLogin(){
+  goToLogin() {
     this.router.navigate(['/login']);
   }
 }
