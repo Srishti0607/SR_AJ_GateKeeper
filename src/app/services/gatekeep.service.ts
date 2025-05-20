@@ -14,19 +14,19 @@ export class GatekeeperService {
   constructor(private http:HttpClient, private router: Router){}
 
   signup(payload:any){
-    return this.http.post('http://localhost:3000/api/employeeSignup',payload);
+    return this.http.post('http://localhost:3000/api/employeeSignup',payload, { withCredentials: true });
   }
 
   login(payload:any){
-    return this.http.post('http://localhost:3000/api/login',payload);
+    return this.http.post('http://localhost:3000/api/login',payload, { withCredentials: true });
   }
 
   changePassword(payload:any){
-    return this.http.post('http://localhost:3000/api/change-password',payload);
+    return this.http.post('http://localhost:3000/api/change-password',payload, { withCredentials: true });
   }
 
   changeProfile(payload:any){
-    return this.http.post('http://localhost:3000/api/change-profile',payload);
+    return this.http.post('http://localhost:3000/api/change-profile',payload, { withCredentials: true });
   }
 
   getProfileData(payload:any){

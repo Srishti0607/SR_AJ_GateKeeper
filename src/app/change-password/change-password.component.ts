@@ -31,7 +31,7 @@ export class ChangePasswordComponent implements OnInit {
       newPassword: this.changePasswordForm.value.newPassword
     };
 
-    this.gateSrv.changeProfile(payload).subscribe({
+    this.gateSrv.changePassword(payload).subscribe({
       next: (res: any) => {
         if (res.status.toLowerCase() === 'success') {
           alert(res.message);

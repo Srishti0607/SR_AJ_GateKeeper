@@ -18,8 +18,8 @@ export class ChangeProfileComponent implements OnInit {
   ngOnInit() {
     this.userInfo = this.gateSrv.userInfo;
     this.changeProfileForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required]
+      firstName: [this.userInfo == undefined ? '' : this.userInfo?.FIRSTNAME, Validators.required],
+      lastName: [this.userInfo == undefined ? '' : this.userInfo?.LASTNAME, Validators.required]
     });
   }
 

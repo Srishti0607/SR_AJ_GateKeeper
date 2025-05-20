@@ -27,7 +27,7 @@ export class AuthService {
     const user = this.gateSrv.userInfo;
 
     if (allowedRoles && allowedRoles.length > 0) {
-      const userRole = user?.ISSUPERADMIN ? 'admin' : user?.role;
+      const userRole = user?.ISSUPERADMIN ? 'admin' : 'user';
 
       if (!userRole || !allowedRoles.includes(userRole)) {
         this.router.navigate(['login']); 
