@@ -13,31 +13,26 @@ export class AddEmployeeComponent implements OnInit {
   EmployeeList: any;
   employeeForm!: FormGroup;
   roles: any;
-  showAddEditForm: boolean = false;
-  isView: boolean = true;
+  showAddEditForm: any;
+  isView: any;
+  editData: any;
 
-  constructor(private fb: FormBuilder, public gateSrv: GatekeeperService,private router: Router) { }
+  constructor(private fb: FormBuilder, public gateSrv: GatekeeperService, private router: Router) { }
 
   ngOnInit() {
     this.getAllEMployee();
-    this.getForm(undefined, false);
+    this.gateSrv.performAction$.subscribe(data => {
+      if (data) {
+        this.getAllEMployee();
+        this.showAddEditForm = false;
+      }
+    });
   }
 
-   goBack(){
+  goBack() {
     this.router.navigate(['/admin-homepage']);
   }
 
-  getForm(data: any, opr: boolean) {
-    this.employeeForm = this.fb.group({
-      firstName: [{ value: data == undefined ? '' : data?.FIRSTNAME, disabled: opr }, Validators.required],
-      lastName: [{ value: data == undefined ? '' : data?.LASTNAME, disabled: opr }, Validators.required],
-      email: [{ value: data == undefined ? '' : data?.EMAIL, disabled: opr }, [Validators.required, Validators.email]],
-      password: [{ value: data == undefined ? '' : data?.PASSWORD, disabled: opr }],
-      role: [{ value: data == undefined ? '' : data?.USERROLE, disabled: opr }, Validators.required],
-      id: [{ value: data == undefined ? '' : data?.ID, disabled: opr}]
-    });
-
-  }
 
   fetchRoles() {
     this.gateSrv.getRole().subscribe({
@@ -47,46 +42,15 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   addEmployee() {
+    this.gateSrv.setEmpFuncData({
+      editData: undefined,
+      isView: false,
+      mode: 'employee',
+      showRoleDropdown: true
+    });
     this.showAddEditForm = true;
-    this.isView = true;
-    this.fetchRoles();
   }
 
-  addEmployeeDetails(mode: any) {
-    console.log(this.employeeForm)
-    let payload = {
-      'FIRSTNAME': this.employeeForm.get('firstName')?.value,
-      'LASTNAME': this.employeeForm.get('lastName')?.value,
-      'EMAIL': this.employeeForm.get('email')?.value,
-      'PASSWORD': this.employeeForm.get('password')?.value == '' ? '12345' : this.employeeForm.get('password')?.value,
-      'ROLENAME': this.employeeForm.get('role')?.value,
-      'mode': mode,
-      'email':this.gateSrv.userInfo.EMAIL
-    }
-    if (this.isView) {
-      this.gateSrv.signup(payload).subscribe((res: any) => {
-        if (res) {
-          if (res.status == 'Success') {
-            this.employeeForm.reset();
-            this.showAddEditForm=false;
-            this.getAllEMployee();
-            alert(res.message);
-          }
-        }
-      });
-    } else {
-      this.gateSrv.updateEmp(this.employeeForm.get('id')?.value,payload).subscribe((res: any) => {
-        if (res) {
-          if (res.status == 'Success') {
-            this.employeeForm.reset();
-            this.showAddEditForm=false;
-            this.getAllEMployee();
-            alert(res.message);
-          }
-        }
-      });
-    }
-  }
 
   getAllEMployee() {
     this.gateSrv.getAllEmp().subscribe({
@@ -96,19 +60,22 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   employeeDetails(emp: any, opr: boolean) {
+      this.gateSrv.setEmpFuncData({
+      editData: emp,
+      isView: opr,
+      mode: 'employee',
+      showRoleDropdown: true
+    });
     this.showAddEditForm = true;
-    this.fetchRoles();
-    this.getForm(emp, opr);
-    this.isView = opr;
   }
 
-   handleEmpDelete(emp: any) {
+  handleEmpDelete(emp: any) {
     if (!confirm('Are you sure you want to delete this employee?')) return;
 
-    this.gateSrv.deleteEmp(emp.ID,this.gateSrv?.userInfo?.EMAIL).subscribe({
-      next: (response:any) => {
+    this.gateSrv.deleteEmp(emp.ID, this.gateSrv?.userInfo?.EMAIL).subscribe({
+      next: (response: any) => {
         if (response.status === 'Success') {
-        this.getAllEMployee();
+          this.getAllEMployee();
           alert(response.message);
         } else {
           alert(response.message);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Config } from '../../Config';
 import { Router } from '@angular/router';
 
@@ -8,90 +8,110 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class GatekeeperService {
-    token:any = '';
-    userInfo:any;
+  token: any = '';
+  userInfo: any;
+  private empFuncDataSubject = new BehaviorSubject<any>(null);
+  empFuncData$ = this.empFuncDataSubject.asObservable();
+  private performActionSubject = new BehaviorSubject<boolean>(false);
+  performAction$ = this.performActionSubject.asObservable();
 
-  constructor(private http:HttpClient, private router: Router){}
+  constructor(private http: HttpClient, private router: Router) { }
 
-  signup(payload:any){
-    return this.http.post('http://localhost:3000/api/employeeSignup',payload, { withCredentials: true });
+  setEmpFuncData(data: any) {
+    this.empFuncDataSubject.next(data);
   }
 
-  login(payload:any){
-    return this.http.post('http://localhost:3000/api/login',payload, { withCredentials: true });
+  getEmpFuncData() {
+    return this.empFuncDataSubject.getValue();
   }
 
-  changePassword(payload:any){
-    return this.http.post('http://localhost:3000/api/change-password',payload, { withCredentials: true });
+  setPerformAction(data: any) {
+    this.performActionSubject.next(data);
   }
 
-  changeProfile(payload:any){
-    return this.http.post('http://localhost:3000/api/change-profile',payload, { withCredentials: true });
+  getPerformAction() {
+    return this.performActionSubject.getValue();
   }
 
-  getProfileData(payload:any){
-    return this.http.post('http://localhost:3000/api/get-profile',payload);
+  signup(payload: any) {
+    return this.http.post('http://localhost:3000/api/employeeSignup', payload, { withCredentials: true });
   }
 
-  deleteAccount(payload:any){
-    return this.http.post('http://localhost:3000/api/delete-account',payload);
+  login(payload: any) {
+    return this.http.post('http://localhost:3000/api/login', payload, { withCredentials: true });
   }
 
-  signOut(){
-    return this.http.post('http://localhost:3000/api/sign-out','');
+  changePassword(payload: any) {
+    return this.http.post('http://localhost:3000/api/change-password', payload, { withCredentials: true });
   }
 
-  addRole(payload:any){
-    return this.http.post('http://localhost:3000/api/addRole',payload);
+  changeProfile(payload: any) {
+    return this.http.post('http://localhost:3000/api/change-profile', payload, { withCredentials: true });
   }
 
-  getRole(){
+  getProfileData(payload: any) {
+    return this.http.post('http://localhost:3000/api/get-profile', payload);
+  }
+
+  deleteAccount(payload: any) {
+    return this.http.post('http://localhost:3000/api/delete-account', payload);
+  }
+
+  signOut() {
+    return this.http.post('http://localhost:3000/api/sign-out', '');
+  }
+
+  addRole(payload: any) {
+    return this.http.post('http://localhost:3000/api/addRole', payload);
+  }
+
+  getRole() {
     return this.http.get('http://localhost:3000/api/getRoles');
   }
 
-  updateRole(id:any,payload:any){
-    return this.http.put('http://localhost:3000/api/editRole/'+id,payload);
+  updateRole(id: any, payload: any) {
+    return this.http.put('http://localhost:3000/api/editRole/' + id, payload);
   }
 
-  deleteRole(name:any,email:any){
-    return this.http.delete('http://localhost:3000/api/deleteRole/'+name,{
-    body: { email: email }
-  });
+  deleteRole(name: any, email: any) {
+    return this.http.delete('http://localhost:3000/api/deleteRole/' + name, {
+      body: { email: email }
+    });
   }
 
-  getAllEmp(){
-     return this.http.get('http://localhost:3000/api/getUserMgtEmp');
+  getAllEmp() {
+    return this.http.get('http://localhost:3000/api/getUserMgtEmp');
   }
 
-  updateEmp(id:any,payload:any){
-    return this.http.put('http://localhost:3000/api/editUser/'+id,payload);
+  updateEmp(id: any, payload: any) {
+    return this.http.put('http://localhost:3000/api/editUser/' + id, payload);
   }
 
-   deleteEmp(id:any,email:any){
-    return this.http.delete('http://localhost:3000/api/deleteUser/'+id,{
-    body: { email: email }
-  });
+  deleteEmp(id: any, email: any) {
+    return this.http.delete('http://localhost:3000/api/deleteUser/' + id, {
+      body: { email: email }
+    });
   }
 
-   updateEmpDet(id:any,ISUSERLOCKED:any){
-    let payload =  { ISUSERLOCKED: ISUSERLOCKED }
-    return this.http.post('http://localhost:3000/api/employees/'+id+'/status',payload);
+  updateEmpDet(id: any, ISUSERLOCKED: any) {
+    let payload = { ISUSERLOCKED: ISUSERLOCKED }
+    return this.http.post('http://localhost:3000/api/employees/' + id + '/status', payload);
   }
 
-  getPermission(){
-     return this.http.get('http://localhost:3000/api/permissionList');
+  getPermission() {
+    return this.http.get('http://localhost:3000/api/permissionList');
   }
 
-  submitRolePermissions(payload:any){
-     return this.http.post('http://localhost:3000/api/role-permission',payload);
+  submitRolePermissions(payload: any) {
+    return this.http.post('http://localhost:3000/api/role-permission', payload);
   }
 
-  getRolePermission(id:any){
-    return this.http.get('http://localhost:3000/api/role-permission/'+id);
+  getRolePermission(id: any) {
+    return this.http.get('http://localhost:3000/api/role-permission/' + id);
 
   }
 
-    handleSignOut(): void {
+  handleSignOut(): void {
     this.signOut().subscribe({
       next: (response: any) => {
         if (response.status === 'Success') {
@@ -106,6 +126,6 @@ export class GatekeeperService {
       }
     });
   }
-  
-  
+
+
 }
