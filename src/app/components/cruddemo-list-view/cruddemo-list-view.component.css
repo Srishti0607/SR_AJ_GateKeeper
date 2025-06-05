@@ -1,0 +1,25 @@
+.parent {
+    display: grid;
+    grid-column-gap: 50px;
+    grid-row-gap: 50px;
+  }
+  
+  .child {
+    height: 600px;
+    width: 360px;
+    background-color: aqua;
+  }
+
+  label {
+    display: inline-block;
+    width: 150px;
+    text-align: right;
+  }
+
+  button {
+    display: inline-block;
+    width: 50px;
+  }
+
+  div.child:nth-child(even){background-color: #f2f2f2;}
+  div.child:nth-child(odd){background-color: #b9cdd1;}

@@ -127,5 +127,27 @@ export class GatekeeperService {
     });
   }
 
+   getEmpData() {  
+    return this.http.get('http://localhost:3000/api/getCrudEmployees')
+  }
+
+  insertEmpData(payload: any){    
+    return this.http.post('http://localhost:3000/api/insertEmployee',payload)
+  }
+
+  updateEmpData(payload: any,id: string){
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+   
+    
+    return this.http.put('http://localhost:3000/api/updateEmployee/'+id,payload,{
+      headers
+    });
+  }
+
+  deleteEmpData(id:any){
+    return this.http.delete('http://localhost:3000/api/deleteEmployee/'+id,{responseType: 'text'});
+  }
+
 
 }

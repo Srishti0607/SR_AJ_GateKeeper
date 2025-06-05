@@ -1,0 +1,163 @@
+
+<div>
+    <form [formGroup]="employeeForm">
+      <div id="grid" class="parent" formArrayName="employeeArray">
+
+        @for( control of getControls() | paginate: config;track control;let i = $index;){
+          <div class="child"
+            [formGroupName]="fieldGlobalIndex(i)">
+  
+            <div>
+              <label for="empId">Employee ID</label>
+              <input name="empId" formControlName="EMPID" />
+            </div>
+            <br />
+  
+            <div>
+              <label for="lastName">Last Name</label>
+              <input name="lastName" formControlName="LASTNAME" />
+            </div>
+            <br />
+  
+            <div>
+              <label for="firstName">First Name</label>
+              <input name="firstName" formControlName="FIRSTNAME" />
+            </div>
+            <br />
+            <div>
+              <label for="title">Title</label>
+              <select formControlName="TITLE" placeholder="Select" appearance="outline" size="3">
+                <option value="Sales Manager">Sales Manager</option>
+                <option value="Sales Representative">Sales Representative</option>
+                <option value="Team Leader">Team Leader</option>
+                <option value="Project Manager">Project Manager</option>
+                <option value="Marketing Executive">Marketing Executive</option>
+              </select>
+            </div>
+            <br />
+            <div>
+              <label for="courtesy">Title Of Courtesy</label>
+              <select formControlName="TITLEOFCOURTESY" placeholder="Select" appearance="outline">
+                <option value="Mr">Mr</option>
+                <option value="Mrs">Mrs</option>
+                <option value="Ms">Ms</option>
+              </select>
+            </div>
+            <br />
+            <div>
+              <label>Gender</label>
+              <input type="radio" value="M" formControlName="GENDER">Male         
+              <input type="radio" value="F" formControlName="GENDER">Female
+            </div>
+            <br/>
+            <div>
+              <label>Has Passport</label>
+              <input type="checkbox" [checked]="control['value']['hasPassport']"            
+              formControlName="HASPASSPORT">
+            </div>
+            <br/>
+            <div>
+              <label>Date Of Joining</label>
+              <input type="datetime-local" 
+              formControlName="DATEOFJOINING">
+            </div>
+            <br/>
+            <div>
+              <label for="salary">Salary</label>
+              <input type="number" formControlName="SALARY">
+            </div>
+            <br/>
+            <div>
+              <button type="button" *ngIf="hasPermission('Delete')" (click)="deleteForm(i)">Delete</button>
+  
+              @if(control.disabled){
+                <button type="button" *ngIf="hasPermission('Edit')" (click)="editForm(i)">Edit</button>
+              }@else if(!control.disabled){
+                <button type="button" *ngIf="hasPermission('Edit')" (click)="updateForm(i)">Update</button>
+                <button type="button" (click)="cancelForm (i)">Cancel</button>
+              }
+          </div>
+          </div>
+        }
+	 </div>
+   </form>
+</div>
+<div>
+    <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+  </div>
+
+<div>
+<form [formGroup]="reactiveForm" *ngIf="hasPermission('Create')">
+
+    <div class="child">
+        <div>
+            <label for="empId">Employee ID</label>
+            <input type="number" name="empId" formControlName="empId" />
+          </div>
+          <br />
+          <div>
+            <label for="lastName">Last Name</label>
+            <input type="text" maxlength="20" name="lastName" formControlName="empLast" />
+          </div>
+          <br />
+          <div>
+            <label for="firstName">First Name</label>
+            <input type="text" maxlength="20" name="firstName" formControlName="empFirst" />
+          </div>
+          <br />
+          <div>
+            <label for="title">Title</label>
+            <select formControlName="empTitle" placeholder="Select" appearance="outline" size="3">
+              <option value="NA" selected>Please Select</option>
+              <option value="Sales Manager">Sales Manager</option>
+              <option value="Sales Representative">Sales Representative</option>
+              <option value="Team Leader">Team Leader</option>
+              <option value="Project Manager">Project Manager</option>
+              <option value="Marketing Executive">Marketing Executive</option>
+            </select>
+          </div>
+          <br />
+          <div>
+            <label for="empCourtesy">Title Of Courtesy</label>
+            <select formControlName="empCourtesy" placeholder="Select" appearance="outline">
+              <option value="NA" selected>Please Select</option>
+              <option value="Mr">Mr</option>
+              <option value="Mrs">Mrs</option>
+              <option value="Ms">Ms</option>
+            </select>
+          </div>
+          <br />
+          <div>
+            <label>Gender</label>
+            <input type="radio" value="M" formControlName="gender">Male         
+            <input type="radio" value="F" formControlName="gender">Female
+          </div>
+          <br/>
+          <div>
+            <label>Has Passport</label>
+            <input type="checkbox" [checked]="false" formControlName="empHasPass">
+          </div>
+          <br/>
+          <div>
+            <label>Date Of Joining</label>
+            <input type="datetime-local" formControlName="empDate">
+          </div>
+          <br/>
+          <div>
+            <label for="firstName">Salary</label>
+            <input type="number" formControlName="empSal">
+          </div>
+          <br/>
+          <div>
+          <button type="button" 
+            [disabled]="!reactiveForm.valid" (click)="insertFormData()">Insert</button>
+
+            <button type="button" (click)="cancelInsert()">Cancel</button>
+          </div>
+    </div>
+   
+   </form>
+</div>
+
+
+

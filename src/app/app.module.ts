@@ -17,6 +17,8 @@ import { AddRoleComponent } from './add-role/add-role.component';
 import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { LockUnlockComponent } from './lock-unlock/lock-unlock.component';
 import { RolePermissionComponent } from './role-permission/role-permission.component';
+import { CRUDDemoListViewComponent } from './components/cruddemo-list-view/cruddemo-list-view.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 export const interceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: HrssInterceptor, multi: true },
 ];
@@ -33,7 +35,8 @@ export const interceptorProviders = [
     AddRoleComponent,
     AddEmployeeComponent,
     LockUnlockComponent,
-    RolePermissionComponent
+    RolePermissionComponent,
+    CRUDDemoListViewComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ export const interceptorProviders = [
     ReactiveFormsModule,
     FormsModule,
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule
   ],
   providers: [interceptorProviders],
   bootstrap: [AppComponent]

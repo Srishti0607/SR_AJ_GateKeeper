@@ -10,6 +10,7 @@ import { AddRoleComponent } from './add-role/add-role.component';
 import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { LockUnlockComponent } from './lock-unlock/lock-unlock.component';
 import { RolePermissionComponent } from './role-permission/role-permission.component';
+import { CRUDDemoListViewComponent } from './components/cruddemo-list-view/cruddemo-list-view.component';
 export const routes: Routes = [
     {
         path:'',
@@ -66,6 +67,12 @@ export const routes: Routes = [
         component: RolePermissionComponent,
         canActivate: [AuthService],
          data: { roles: ['admin'] }
+    },
+     {
+        path:'employee-crud',
+        component: CRUDDemoListViewComponent,
+        canActivate: [AuthService],
+         data: { roles: ['user'] }
     }
    
 ]

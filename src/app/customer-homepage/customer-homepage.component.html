@@ -26,6 +26,9 @@
               <li class="list-group-item border-0">
                 <a class="btn btn-outline-secondary w-100 mb-2" routerLink="/change-profile">Change Profile</a>
               </li>
+              <li class="list-group-item border-0">
+                <a class="btn btn-outline-secondary w-100 mb-2" routerLink="/employee-crud">Employee CRUD</a>
+              </li>
               <li class="list-group-item border-0" *ngIf="userInfo?.USERROLE == 'Customer'">
                 <button class="btn btn-outline-danger w-100 mb-2" (click)="handleDeleteAccount()">Delete Account</button>
               </li>
